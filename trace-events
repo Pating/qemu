@@ -112,6 +112,8 @@ dma_map_wait(void *dbs) "dbs=%p"
 
 # migration/colo.c
 colo_vm_state_change(const char *old, const char *new) "Change '%s' => '%s'"
+colo_send_message(const char *msg) "Send '%s' message"
+colo_receive_message(const char *msg) "Receive '%s' message"
 
 # kvm-all.c
 kvm_ioctl(int type, void *arg) "type 0x%x, arg %p"
