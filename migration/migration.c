@@ -333,7 +333,6 @@ void qemu_start_incoming_migration(const char *uri, Error **errp)
 
 static void process_incoming_migration_bh(void *opaque)
 {
-    Error *local_err = NULL;
     MigrationIncomingState *mis = opaque;
 
     /*
@@ -373,6 +372,7 @@ static void process_incoming_migration_co(void *opaque)
     QEMUFile *f = opaque;
     MigrationIncomingState *mis;
     PostcopyState ps;
+    Error *local_err = NULL;
     int ret;
 
     mis = migration_incoming_state_new(f);
@@ -1615,7 +1615,11 @@ static void migration_completion(MigrationState *s, int current_active_state,
 
         if (!ret) {
             ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
-            if (ret >= 0) {
+            /*
+            * Don't mark image with BDRV_O_INACTIVE flag if
+            * we will go into COLO stage later.
+            */
+            if (ret >= 0 && !migrate_colo_enabled()) {
                 ret = bdrv_inactivate_all();
             }
             if (ret >= 0) {

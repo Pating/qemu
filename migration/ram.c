@@ -2207,7 +2207,7 @@ static inline void *colo_cache_from_block_offset(RAMBlock *block,
         return NULL;
     }
 
-    k = (block->mr->ram_addr + offset) >> TARGET_PAGE_BITS;
+    k = (memory_region_get_ram_addr(block->mr) + offset) >> TARGET_PAGE_BITS;
     bitmap = atomic_rcu_read(&migration_bitmap_rcu)->bmap;
     /*
     * During colo checkpoint, we need bitmap of these migrated pages.

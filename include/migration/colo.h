@@ -13,6 +13,7 @@
 #ifndef QEMU_COLO_H
 #define QEMU_COLO_H
 
+#include "qemu/osdep.h"
 #include "qemu-common.h"
 #include "migration/migration.h"
 #include "qemu/coroutine_int.h"
